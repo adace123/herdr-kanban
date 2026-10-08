@@ -356,11 +356,8 @@ def check_assign(check: Checker, tmp: str) -> None:
     import contextlib
     import io
     import os
-    from dataclasses import replace
 
-    from . import cli as cli_module
     from .cli import run_agent_command
-    from .config import load_config
 
     board = Path(tmp) / "assign-board.json"
     saved = {k: os.environ.get(k) for k in ("KANBAN_BOARD_FILE", "HERDR_PANE_ID")}

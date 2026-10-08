@@ -14,9 +14,13 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.10
     hooks:
+      # Lint only. The board predates ruff and has its own formatting; running
+      # `ruff-format` here would rewrite 14 of the 18 modules in a diff that has
+      # nothing to do with the change being committed. Adopting the formatter is
+      # a deliberate decision, not a side effect — until then this hook and CI's
+      # `ruff check` are the same gate.
       - id: ruff-check
         args: [ --fix ]
-      - id: ruff-format
 
   - repo: https://github.com/koalaman/shellcheck-precommit
     rev: v0.11.0

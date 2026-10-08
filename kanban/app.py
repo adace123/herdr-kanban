@@ -18,7 +18,7 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.worker import Worker
 
-from . import dispatch, icons, notify
+from . import dispatch, icons
 from .config import Config
 from .demo import demo_live, demo_tasks
 from .dispatch import (

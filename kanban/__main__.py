@@ -287,7 +287,8 @@ def run_sync(store: Store, detach: bool) -> int:
     daemon from the activation script, the same moment the code under it
     changes.
     """
-    from .sync import daemon_pid, detach as fork_away, run_daemon
+    from .sync import daemon_pid, run_daemon
+    from .sync import detach as fork_away
 
     if detach:
         # Checked before forking so the startup hook's output says which it
