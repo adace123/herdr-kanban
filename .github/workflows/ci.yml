@@ -43,4 +43,7 @@ jobs:
       - name: shellcheck
         run: shellcheck launcher.sh scripts/*.sh
       - name: markdownlint
-        run: npx --yes markdownlint-cli2
+        # markdownlint-cli2 needs a glob: with no arguments it prints its usage
+        # and exits 2 rather than defaulting to the tree. `.markdownlint.json` is
+        # picked up automatically.
+        run: npx --yes markdownlint-cli2 "**/*.md" "#node_modules"
