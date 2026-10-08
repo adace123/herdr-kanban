@@ -1,0 +1,41 @@
+[build-system]
+requires = [ "hatchling" ]
+build-backend = "hatchling.build"
+
+[project]
+name = "herdr-kanban"
+description = "Kanban board for agent work, as a herdr plugin"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+# `tomllib` (3.11+) reads the config; Textual draws the board. The floor is the
+# version this is tested against — the Nix path pins nixpkgs' own copy, which is
+# currently the same 8.2.8.
+dependencies = [ "textual>=8.2" ]
+dynamic = [ "version" ]
+
+[project.scripts]
+herdr-kanban = "kanban.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/adace123/herdr-kanban"
+
+[tool.hatch.version]
+path = "kanban/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = [ "kanban" ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = [ ".venv" ]
+
+[tool.ruff.lint]
+select = [
+  "E4", # pycodestyle: imports
+  "E7", # pycodestyle: statements
+  "E9", # pycodestyle: runtime
+  "F",  # pyflakes
+  "I",  # isort
+]

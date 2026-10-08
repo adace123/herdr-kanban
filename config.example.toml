@@ -1,10 +1,16 @@
-# herdr-kanban settings
+# herdr-kanban settings — example
 #
-# This file is repo-managed (modules/home/ai/herdr/plugins/kanban/config.toml)
-# and is copied to the plugin config dir (~/.config/herdr/plugins/config/
-# herdr-kanban/) on every activation, so editing it here is the source of
-# truth. Every key is optional — a missing file or key falls back to the same
-# defaults baked into the app.
+# Copy this to the plugin config dir
+# (~/.config/herdr/plugins/config/herdr-kanban/config.toml) and edit it, or —
+# with the Nix module — point `programs.herdr-kanban.config` at your own file,
+# which is deployed there on every activation. Every key is optional: a missing
+# file or key falls back to the same defaults baked into the app
+# (`kanban/config.py`).
+#
+# Two tables are deliberately absent here because they are yours, not the
+# plugin's: `[workspaces]` (the short codes your card ids are built from) and
+# `[models]` (the model names your agents accept). Both are documented below
+# and in docs/kanban.md.
 
 [ui]
 # "overlay" fills the active pane and restores focus/zoom on close (the
@@ -103,23 +109,21 @@ exited_decay_minutes = 60
 # code of the workspace it was filed in, then a number from that code's own
 # counter. The counter is per code and only ever grows, so a code never reuses a
 # number and every id names exactly one card — while `8` alone is a reference
-# only while a single card holds it. Without an entry
-# here a workspace codes by its own label, slugified and cut to six characters
-# (`nixos-config-v2` -> `nixos`), which reads fine for a short label and badly
-# for a long one — hence the table below. Key an entry by the label, or by
-# herdr's workspace id (`w1 = "cfg"`) — the id survives a `herdr workspace
-# rename`, which the label does not. The code is frozen into the id when the
-# card is filed; changing it here only affects new cards.
-[workspaces]
-enrollment = "enrol"          # `enroll` is cut to six, which reads like a typo
-webapp = "web"                # `webap` is not a word
-snowflake-reporting = "snow"  # `snowfl` is not a word either
-commerce = "comm"
-jupyter = "jupy"              # `jupite` is a truncation, not an abbreviation
-incentive = "inc"
-personal = "pers"
-# Left to the fallback: nixos-config-v2 -> `nixos`, and the labels that are
-# already short enough to be their own code (`work`, `argo`).
+# only while a single card holds it. Without an entry here a workspace codes by
+# its own label, slugified and cut to six characters (`nixos-config-v2` ->
+# `nixos`), which reads fine for a short label and badly for a long one — hence
+# this table. Key an entry by the label, or by herdr's workspace id
+# (`w1 = "cfg"`) — the id survives a `herdr workspace rename`, which the label
+# does not. The code is frozen into the id when the card is filed; changing it
+# here only affects new cards.
+#
+# Left unset, every workspace uses the six-character fallback.
+#
+# [workspaces]
+# enrollment = "enrol"          # `enroll` is cut to six, which reads like a typo
+# snowflake-reporting = "snow"  # `snowfl` is not a word either
+# jupyter = "jupy"              # `jupite` is a truncation, not an abbreviation
+# w1 = "cfg"                    # keyed by workspace id, so a rename keeps it
 
 [behavior]
 # How often the board re-reads live agent and workspace state, in seconds.
@@ -206,20 +210,16 @@ worktree = true
 # accepts — a name it rejects fails at `agent start`, where the board names the
 # step that broke. A kind with no list (or no `[models]` at all) offers just
 # `default`, meaning "whatever `[agents.<kind>] args` already say".
-[models]
-claude = ["sonnet", "opus", "haiku"]
-# Provider-qualified, because a bare id can exist under more than one provider
-# (`deepseek-v4-flash` is in both `opencode` and `opencode-go`) and `--model`
-# goes to the CLI verbatim. First entry is the one this box runs by default.
-pi = [
-  "opencode-go/deepseek-v4.1-flash",
-  "opencode-go/deepseek-v4-flash",
-  "opencode-go/glm-5.3-flash",
-  "opencode-go/glm-5.3",
-  "opencode-go/kimi-k2.7-code",
-  "opencode-go/minimax-m3",
-  "opencode-go/grok-4.6",
-  "opencode-go/qwen3.7-max",
-]
+#
+# Left unset, every kind offers only `default`.
+#
+# [models]
+# claude = ["sonnet", "opus", "haiku"]
+# Provider-qualified where a bare id exists under more than one provider, because
+# `--model` goes to the CLI verbatim. First entry is the one you run by default.
+# pi = [
+#   "opencode-go/deepseek-v4.1-flash",
+#   "opencode-go/deepseek-v4-flash",
+#   "opencode-go/glm-5.3",
+# ]
 # codex = ["gpt-5-codex"]
-# opencode = ["opencode/deepseek-v4-flash-free"]

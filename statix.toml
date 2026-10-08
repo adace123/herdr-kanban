@@ -1,0 +1,10 @@
+# statix configuration, picked up automatically (statix's `--config` defaults
+# to `.`). Anything not disabled here must be clean.
+#
+# NOTE: `disabled` takes lint *names*, not codes. `disabled = ["W20"]` is
+# silently accepted and does nothing; `"repeated_keys"` is the one that works.
+disabled = [
+  # Dotted-path style (`programs.herdr-kanban.enable = true`) is deliberate in
+  # module code: each setting stays on one line next to its own comment.
+  "repeated_keys"
+]

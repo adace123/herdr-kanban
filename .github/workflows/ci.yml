@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  flake:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v23
+        with:
+          # FlakeHub needs OIDC auth; this repo does not use it.
+          flakehub: false
+      # Evaluate every system's outputs, but build none of them: the checks are
+      # per-system derivations, so building a foreign one dies with "platform
+      # mismatch" (there is no remote builder for foreign systems). The native
+      # `nix flake check` below is what actually builds.
+      - name: Evaluate flake (all systems)
+        run: nix flake check --all-systems --no-build
+      # Native: realises checks.<system>.{selftest,protocol-sync,formatting,
+      # statix,deadnix} for this runner's platform.
+      - name: Check flake (native)
+        run: nix flake check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/ruff-action@v3
+      - name: shellcheck
+        run: shellcheck launcher.sh scripts/*.sh
+      - name: markdownlint
+        run: npx --yes markdownlint-cli2

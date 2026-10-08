@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+
+# Nix
+result
+result-*
+
+# Editor
+.DS_Store
+*.swp
+*~
+
+# Local development
+.direnv/
