@@ -5,8 +5,8 @@
 # starts that agent in that workspace, prompts it with the task, and mirrors
 # the real agent state (working / blocked / done) back onto the card.
 #
-# Deployment: modules/home/ai/herdr/herdr.nix copies this manifest and its
-# launcher into a stable, real directory
+# Deployment: `nix/module.nix` (`programs.herdr-kanban`) copies this manifest
+# and its launcher into a stable, real directory
 # (~/.config/herdr/plugins-managed/kanban) and registers the plugin with
 # `herdr plugin link`, because herdr canonicalises the linked path and a store
 # symlink would go stale on every rebuild.

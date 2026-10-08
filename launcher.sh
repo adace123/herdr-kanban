@@ -10,8 +10,8 @@
 #
 # The board is a Textual app. Its Python package lives in the Nix store
 # (@APPDIR@) and is run with the interpreter from
-# `python3.withPackages [ textual ]` (@PYTHON@); herdr.nix substitutes both
-# placeholders when it packages this script. Unsubstituted placeholders (a
+# `python3.withPackages [ textual ]` (@PYTHON@); nix/package.nix substitutes
+# both placeholders when it packages this script. Unsubstituted placeholders (a
 # plain checkout, `kanban …` by hand) fall back to the script's own directory
 # and the `python3` on PATH.
 set -euo pipefail

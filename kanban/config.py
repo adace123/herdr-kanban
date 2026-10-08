@@ -1,9 +1,10 @@
 """Plugin configuration: `config.toml`, with the same values as built-in defaults.
 
-The repo's `plugins/kanban/config.toml` is copied to the plugin config dir on
-every activation, so it is the source of truth for a Nix-managed install. This
-module still carries defaults for every key so a bare checkout, a missing file,
-or a hand-edited file with keys removed all keep working.
+The `config.example.toml` shipped by this repo (or the consumer's own file,
+deployed by the Nix module) is copied to the plugin config dir on every
+activation, so it is the source of truth for a Nix-managed install. This module
+still carries defaults for every key so a bare checkout, a missing file, or a
+hand-edited file with keys removed all keep working.
 """
 
 from __future__ import annotations
